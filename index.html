@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelNest – Discover the World</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===========================
+       RESET & BASE
+    =========================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #07090f;
+      color: #ffffff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===========================
+       NAVBAR
+    =========================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(7, 9, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #ffffff;
+    }
+
+    .logo span {
+      color: #c9a84c;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.6);
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .nav-links .nav-btn {
+      background: #c9a84c;
+      color: #07090f;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    .nav-links .nav-btn:hover {
+      background: #b8933e;
+      color: #07090f;
+    }
+
+    /* Hamburger - hidden on desktop */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #ffffff;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ===========================
+       HERO SECTION
+    =========================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* The beautiful gradient background */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 75% 20%, rgba(27, 108, 168, 0.5) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 15% 80%, rgba(14, 122, 110, 0.45) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 85% 80%, rgba(100, 25, 90, 0.4) 0%, transparent 55%),
+        linear-gradient(160deg, #07090f 0%, #0a1428 45%, #070d12 75%, #0f070d 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1.05;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: #c9a84c;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: #c9a84c;
+      color: #07090f;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: #b8933e;
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+      display: inline-block;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translateY(-3px);
+    }
+
+    /* Rotating quote box — bottom right of hero */
+    .quote-box {
+      position: absolute;
+      bottom: 40px;
+      right: 5%;
+      max-width: 320px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      z-index: 1;
+    }
+
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: #c9a84c;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .quote-text {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.7;
+      font-style: italic;
+      transition: opacity 0.5s;
+    }
+
+    .quote-author {
+      font-size: 0.75rem;
+      color: #c9a84c;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* ===========================
+       DESTINATION OF THE DAY
+    =========================== */
+    .dotd-section {
+      padding: 100px 5%;
+      background: #07090f;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: #c9a84c;
+    }
+
+    .dotd-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .dotd-description {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .dotd-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      border: 1.5px solid #c9a84c;
+      color: #c9a84c;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: background 0.3s, color 0.3s, transform 0.3s;
+    }
+
+    .btn-ghost:hover {
+      background: #c9a84c;
+      color: #07090f;
+      transform: translateY(-3px);
+    }
+
+    /* Destination card visual */
+    .dotd-card {
+      background: linear-gradient(145deg, #0d1f3c, #0e2d1f);
+      border-radius: 24px;
+      aspect-ratio: 4 / 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    /* Glow inside card */
+    .dotd-card::before {
+      content: '';
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(27, 108, 168, 0.35), transparent 70%);
+      top: 10%;
+      left: 20%;
+    }
+
+    .dotd-card-emoji {
+      font-size: 7rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dotd-card-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(7, 9, 15, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 20px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .dotd-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+    }
+
+    .dotd-card-loc {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 4px;
+    }
+
+    .dotd-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #c9a84c;
+      color: #07090f;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 30px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===========================
+       FEATURES SECTION
+    =========================== */
+    .features-section {
+      padding: 100px 5%;
+      background: #0a0b12;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    .feature-card {
+      background: #0d0e18;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 20px;
+      padding: 32px;
+      transition: border-color 0.3s, transform 0.3s;
+      display: block;
+      color: #fff;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(201, 168, 76, 0.35);
+      transform: translateY(-6px);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.45);
+      line-height: 1.75;
+    }
+
+    .feature-link {
+      display: inline-block;
+      margin-top: 18px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #c9a84c;
+    }
+
+    /* ===========================
+       DESTINATIONS PREVIEW
+    =========================== */
+    .destinations-section {
+      padding: 100px 5%;
+      background: #07090f;
+    }
+
+    .dest-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 40px;
+    }
+
+    .destinations-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .dest-card {
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0d1525;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .dest-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .dest-card-image {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      background: linear-gradient(135deg, #0d1f3c, #1a3a5c);
+    }
+
+    .dest-card:nth-child(2) .dest-card-image { background: linear-gradient(135deg, #2a1042, #4a1f72); }
+    .dest-card:nth-child(3) .dest-card-image { background: linear-gradient(135deg, #3d1a10, #6a2f18); }
+    .dest-card:nth-child(4) .dest-card-image { background: linear-gradient(135deg, #0e2a3a, #1a5a6e); }
+
+    .dest-card-body {
+      padding: 18px;
+    }
+
+    .dest-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .dest-card-country {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-top: 4px;
+    }
+
+    .dest-card-region {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #c9a84c;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 10px;
+    }
+
+    /* ===========================
+       NEWSLETTER
+    =========================== */
+    .newsletter-section {
+      padding: 100px 5%;
+      background: #0a0b12;
+    }
+
+    .newsletter-box {
+      background: linear-gradient(135deg, #0d1a2e 0%, #0e1f18 50%, #1a0d28 100%);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 28px;
+      padding: 80px 5%;
+      text-align: center;
+    }
+
+    .newsletter-box .section-label {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .newsletter-box .section-title {
+      margin-bottom: 12px;
+    }
+
+    .newsletter-subtitle {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.45);
+      margin-bottom: 36px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 14px 20px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50px;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .newsletter-input::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .newsletter-input:focus {
+      border-color: #c9a84c;
+    }
+
+    .newsletter-btn {
+      background: #c9a84c;
+      color: #07090f;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 24px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      white-space: nowrap;
+    }
+
+    .newsletter-btn:hover {
+      background: #b8933e;
+      transform: translateY(-2px);
+    }
+
+    .newsletter-msg {
+      font-size: 0.82rem;
+      margin-top: 14px;
+      min-height: 20px;
+    }
+
+    .newsletter-msg.success { color: #6fcf97; }
+    .newsletter-msg.error   { color: #eb5757; }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: #040508;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 60px 5% 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+
+    .footer-logo span { color: #c9a84c; }
+
+    .footer-about {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.35);
+      line-height: 1.75;
+      max-width: 300px;
+    }
+
+    .footer-col h5 {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-col ul a {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color 0.3s;
+    }
+
+    .footer-col ul a:hover { color: #fff; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.25);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .social-links a:hover {
+      border-color: #c9a84c;
+      transform: translateY(-3px);
+    }
+
+    /* ===========================
+       RESPONSIVE
+    =========================== */
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(7, 9, 15, 0.97);
+        flex-direction: column;
+        padding: 24px 5%;
+        gap: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .nav-links.open { display: flex; }
+
+      .quote-box { display: none; }
+
+      .dotd-grid { grid-template-columns: 1fr; gap: 40px; }
+      .dotd-card { aspect-ratio: 16 / 9; }
+
+      .features-grid { grid-template-columns: 1fr; }
+
+      .destinations-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .newsletter-form { flex-direction: column; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      .dest-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .destinations-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================================
+       NAVBAR
+  ================================ -->
+  <nav>
+    <a href="index.html" class="logo">Travel<span>Nest</span></a>
+
+    <button class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="destinations.html">Explore</a></li>
+      <li><a href="budget.html">Budget</a></li>
+      <li><a href="generator.html">Generator</a></li>
+      <li><a href="mood.html">Mood</a></li>
+      <li><a href="feedback.html" class="nav-btn">Feedback</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- ================================
+       HERO
+  ================================ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">✈️ Your travel companion</div>
+
+      <h1 class="hero-title">
+        Where Will You<br>
+        <em>Wander Next?</em>
+      </h1>
+
+      <p class="hero-subtitle">
+        Discover breathtaking destinations, plan your budget, and find your perfect adventure — all in one place.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="destinations.html" class="btn-primary">Explore Destinations</a>
+        <a href="generator.html"    class="btn-outline">🎲 Surprise Me</a>
+      </div>
+    </div>
+
+    <!-- Rotating quote card -->
+    <div class="quote-box">
+      <div class="quote-mark">"</div>
+      <p class="quote-text" id="quoteText">The world is a book, and those who do not travel read only one page.</p>
+      <p class="quote-author" id="quoteAuthor">— Saint Augustine</p>
+    </div>
+  </section>
+
+
+  <!-- ================================
+       DESTINATION OF THE DAY
+  ================================ -->
+  <section class="dotd-section">
+    <p class="section-label">✨ Changes every day</p>
+    <h2 class="section-title">Destination of the Day</h2>
+
+    <div class="dotd-grid">
+
+      <!-- Left: text info -->
+      <div>
+        <p class="dotd-description" id="dotdDesc">Loading…</p>
+
+        <div class="dotd-tags" id="dotdTags"></div>
+
+        <a href="destinations.html" class="btn-ghost">Explore This Destination →</a>
+      </div>
+
+      <!-- Right: visual card -->
+      <div class="dotd-card">
+        <div class="dotd-badge">⭐ Today's Pick</div>
+        <div class="dotd-card-emoji" id="dotdEmoji">🌍</div>
+        <div class="dotd-card-footer">
+          <div class="dotd-card-name" id="dotdName">Loading…</div>
+          <div class="dotd-card-loc"  id="dotdLoc"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================
+       FEATURES
+  ================================ -->
+  <section class="features-section">
+    <p class="section-label">🛠️ What we offer</p>
+    <h2 class="section-title">Everything You Need to Plan</h2>
+
+    <div class="features-grid">
+
+      <a href="destinations.html" class="feature-card">
+        <span class="feature-icon">🗺️</span>
+        <div class="feature-title">Destination Explorer</div>
+        <p class="feature-desc">Browse 50+ destinations with rich details, photos, and travel tips. Filter by continent or search by name.</p>
+        <span class="feature-link">Explore now →</span>
+      </a>
+
+      <a href="budget.html" class="feature-card">
+        <span class="feature-icon">💰</span>
+        <div class="feature-title">Budget Planner</div>
+        <p class="feature-desc">Input your trip length and daily spend — we calculate your total and tell you if it's low, moderate, or luxury.</p>
+        <span class="feature-link">Plan budget →</span>
+      </a>
+
+      <a href="generator.html" class="feature-card">
+        <span class="feature-icon">🎲</span>
+        <div class="feature-title">Trip Generator</div>
+        <p class="feature-desc">Can't decide? Pick your travel style and budget range and we'll randomly suggest the perfect destination.</p>
+        <span class="feature-link">Try it →</span>
+      </a>
+
+      <a href="mood.html" class="feature-card">
+        <span class="feature-icon">🎵</span>
+        <div class="feature-title">Travel Mood</div>
+        <p class="feature-desc">Play ambient travel sounds and track your visited and planned destinations — all saved to your browser.</p>
+        <span class="feature-link">Set mood →</span>
+      </a>
+
+      <a href="generator.html" class="feature-card">
+        <span class="feature-icon">❤️</span>
+        <div class="feature-title">Wishlist</div>
+        <p class="feature-desc">Save the destinations you love to a personal wishlist stored in your browser. Always there when you need it.</p>
+        <span class="feature-link">Build wishlist →</span>
+      </a>
+
+      <a href="feedback.html" class="feature-card">
+        <span class="feature-icon">💬</span>
+        <div class="feature-title">Feedback & FAQ</div>
+        <p class="feature-desc">Got questions? Browse our accordion FAQ or drop us a message and we'll get back to you.</p>
+        <span class="feature-link">Get in touch →</span>
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- ================================
+       DESTINATIONS PREVIEW
+  ================================ -->
+  <section class="destinations-section">
+    <div class="dest-header">
+      <div>
+        <p class="section-label">🔥 Trending now</p>
+        <h2 class="section-title">Popular Destinations</h2>
+      </div>
+      <a href="destinations.html" class="btn-ghost">View All →</a>
+    </div>
+
+    <div class="destinations-grid" id="destGrid"></div>
+  </section>
+
+
+  <!-- ================================
+       NEWSLETTER
+  ================================ -->
+  <section class="newsletter-section">
+    <div class="newsletter-box">
+      <span class="section-label">Stay inspired</span>
+      <h2 class="section-title">Never Miss a Destination</h2>
+      <p class="newsletter-subtitle">Travel inspiration and our destination of the day — straight to your inbox.</p>
+
+      <form class="newsletter-form" id="newsletterForm">
+        <input
+          type="email"
+          class="newsletter-input"
+          id="newsletterEmail"
+          placeholder="your@email.com"
+        />
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+
+      <p class="newsletter-msg" id="newsletterMsg"></p>
+    </div>
+  </section>
+
+
+  <!-- ================================
+       FOOTER
+  ================================ -->
+  <footer>
+    <div class="footer-grid">
+
+      <div>
+        <div class="footer-logo">Travel<span>Nest</span></div>
+        <p class="footer-about">Your all-in-one travel planning companion. Discover destinations, plan your budget, and find your perfect adventure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Pages</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="destinations.html">Explore</a></li>
+          <li><a href="budget.html">Budget Planner</a></li>
+          <li><a href="generator.html">Generator</a></li>
+          <li><a href="mood.html">Mood</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Regions</h5>
+        <ul>
+          <li><a href="destinations.html">Asia</a></li>
+          <li><a href="destinations.html">Europe</a></li>
+          <li><a href="destinations.html">Americas</a></li>
+          <li><a href="destinations.html">Africa</a></li>
+          <li><a href="destinations.html">Oceania</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 TravelNest · COMP40053 Assignment</span>
+      <div class="social-links">
+        <a href="#" title="Instagram">📸</a>
+        <a href="#" title="X / Twitter">🐦</a>
+        <a href="#" title="YouTube">📺</a>
+        <a href="#" title="GitHub">🐙</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ================================
+       JAVASCRIPT
+  ================================ -->
+  <script>
+
+    // ── Destination data ──
+    const destinations = [
+      {
+        name: "Bali",
+        country: "Indonesia",
+        continent: "Asia",
+        emoji: "🌴",
+        desc: "A tropical paradise with lush rice terraces, ancient temples, and surf beaches that feel like another world.",
+        tags: ["Beach", "Culture", "Nature"]
+      },
+      {
+        name: "Paris",
+        country: "France",
+        continent: "Europe",
+        emoji: "🗼",
+        desc: "The City of Light dazzles with iconic landmarks, world-class art, and cuisine that lives up to every expectation.",
+        tags: ["Culture", "Romance", "Art"]
+      },
+      {
+        name: "Kyoto",
+        country: "Japan",
+        continent: "Asia",
+        emoji: "⛩️",
+        desc: "Step into ancient Japan with stunning temples, bamboo groves, and traditional tea ceremonies at every turn.",
+        tags: ["History", "Nature", "Culture"]
+      },
+      {
+        name: "Santorini",
+        country: "Greece",
+        continent: "Europe",
+        emoji: "🏛️",
+        desc: "Whitewashed villages perched over a caldera with legendary sunsets and the bluest sea you have ever seen.",
+        tags: ["Beach", "Romance", "Views"]
+      },
+      {
+        name: "Machu Picchu",
+        country: "Peru",
+        continent: "Americas",
+        emoji: "🏔️",
+        desc: "The legendary Incan citadel high in the Andes — one of the most awe-inspiring places on the entire planet.",
+        tags: ["Adventure", "History", "Nature"]
+      },
+      {
+        name: "Serengeti",
+        country: "Tanzania",
+        continent: "Africa",
+        emoji: "🦁",
+        desc: "Witness the world's greatest wildlife spectacle on the vast golden plains of the Serengeti.",
+        tags: ["Wildlife", "Nature", "Safari"]
+      },
+      {
+        name: "New York",
+        country: "USA",
+        continent: "Americas",
+        emoji: "🗽",
+        desc: "The city that never sleeps — a relentless collision of culture, food, fashion, and iconic skylines.",
+        tags: ["City", "Culture", "Food"]
+      },
+      {
+        name: "Queenstown",
+        country: "New Zealand",
+        continent: "Oceania",
+        emoji: "🎿",
+        desc: "The adventure capital of the world, surrounded by breathtaking fjords, mountains, and crystal-clear lakes.",
+        tags: ["Adventure", "Nature", "Sports"]
+      }
+    ];
+
+    // ── Travel quotes ──
+    const quotes = [
+      { text: "The world is a book, and those who do not travel read only one page.", author: "Saint Augustine" },
+      { text: "Travel is the only thing you buy that makes you richer.",              author: "Anonymous" },
+      { text: "Not all those who wander are lost.",                                   author: "J.R.R. Tolkien" },
+      { text: "Life is either a daring adventure or nothing at all.",                 author: "Helen Keller" },
+      { text: "To travel is to live.",                                                author: "Hans Christian Andersen" }
+    ];
+
+
+    // ── Hamburger menu ──
+    var hamburger = document.getElementById('hamburger');
+    var navLinks  = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', function() {
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+
+    // ── Rotating quotes ──
+    var currentQuote = 0;
+    var quoteTextEl   = document.getElementById('quoteText');
+    var quoteAuthorEl = document.getElementById('quoteAuthor');
+
+    function showNextQuote() {
+      // Fade out
+      quoteTextEl.style.opacity = '0';
+
+      setTimeout(function() {
+        // Move to next quote
+        currentQuote = currentQuote + 1;
+        if (currentQuote >= quotes.length) {
+          currentQuote = 0;
+        }
+
+        // Update text
+        quoteTextEl.textContent   = quotes[currentQuote].text;
+        quoteAuthorEl.textContent = '— ' + quotes[currentQuote].author;
+
+        // Fade back in
+        quoteTextEl.style.opacity = '1';
+      }, 500);
+    }
+
+    // Change quote every 5 seconds
+    setInterval(showNextQuote, 5000);
+
+
+    // ── Destination of the Day ──
+    // Pick based on day of the year so it changes daily
+    var today       = new Date();
+    var startOfYear = new Date(today.getFullYear(), 0, 0);
+    var dayOfYear   = Math.floor((today - startOfYear) / 86400000);
+    var dotdIndex   = dayOfYear % destinations.length;
+    var dotd        = destinations[dotdIndex];
+
+    document.getElementById('dotdEmoji').textContent = dotd.emoji;
+    document.getElementById('dotdName').textContent  = dotd.name;
+    document.getElementById('dotdLoc').textContent   = dotd.country + ' · ' + dotd.continent;
+    document.getElementById('dotdDesc').textContent  = dotd.desc;
+
+    // Add tags
+    var tagsContainer = document.getElementById('dotdTags');
+    for (var i = 0; i < dotd.tags.length; i++) {
+      var span = document.createElement('span');
+      span.className   = 'tag';
+      span.textContent = dotd.tags[i];
+      tagsContainer.appendChild(span);
+    }
+
+
+    // ── Popular destinations preview ──
+    var destGrid = document.getElementById('destGrid');
+
+    for (var i = 0; i < 4; i++) {
+      var d = destinations[i];
+      var card = document.createElement('div');
+      card.className = 'dest-card';
+      card.innerHTML =
+        '<div class="dest-card-image">' + d.emoji + '</div>' +
+        '<div class="dest-card-body">' +
+          '<div class="dest-card-name">' + d.name + '</div>' +
+          '<div class="dest-card-country">' + d.country + '</div>' +
+          '<div class="dest-card-region">' + d.continent + '</div>' +
+        '</div>';
+      destGrid.appendChild(card);
+    }
+
+
+    // ── Newsletter form ──
+    var newsletterForm  = document.getElementById('newsletterForm');
+    var newsletterEmail = document.getElementById('newsletterEmail');
+    var newsletterMsg   = document.getElementById('newsletterMsg');
+
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      var email = newsletterEmail.value.trim();
+
+      // Simple email check
+      if (email === '' || email.indexOf('@') === -1) {
+        newsletterMsg.textContent = '⚠️ Please enter a valid email address.';
+        newsletterMsg.className   = 'newsletter-msg error';
+        return;
+      }
+
+      // Save to localStorage
+      var subscribers = JSON.parse(localStorage.getItem('travelnest_subscribers') || '[]');
+      if (subscribers.indexOf(email) === -1) {
+        subscribers.push(email);
+      }
+      localStorage.setItem('travelnest_subscribers', JSON.stringify(subscribers));
+
+      // Show success message
+      newsletterMsg.textContent = '🎉 You are subscribed! Welcome to TravelNest.';
+      newsletterMsg.className   = 'newsletter-msg success';
+      newsletterForm.reset();
+    });
+
+  </script>
+</body>
+</html>
