@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelNest – Home</title>
+    <meta name="theme-color" content="#09101C" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233D8BF8'/><path d='M20 55 L50 20 L80 55 L65 50 L65 75 L50 70 L35 75 L35 50 Z' fill='white'/></svg>" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700"
+        rel="stylesheet" />
+    <script>document.write('');</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="js/analytics.js" defer></script>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="destinations.html">Explore</a></li>
+            <li><a href="budget.html">Budget</a></li>
+            <li><a href="generator.html">Generator</a></li>
+            <li><a href="mood.html">Mood</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <!-- HERO: text left, image right using CSS Grid -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1>Your next <span class="highlight" id="heroWord">adventure</span> starts here</h1>
+                <p class="hero-quote" id="heroQuote">"Not all those who wander are lost." - J.R.R. Tolkien</p>
+                <div class="hero-btns">
+                    <a href="destinations.html" class="btn">Explore Destinations</a>
+                    <a href="generator.html" class="btn btn-outline">Surprise Me</a>
+                </div>
+            </div>
+            <div class="hero-img-wrap">
+                <img id="heroImg"
+                    src="images/paris.jpg" />
+            </div>
+        </section>
+
+        <!-- DESTINATION OF THE DAY -->
+        <section class="section reveal">
+            <h2 class="section-title">Destination of the Day</h2>
+            <p class="section-subtitle">Updated daily - a new place to discover every morning</p>
+            <div class="dotd">
+                <div class="dotd-bg" id="dotdBg"></div>
+                <div class="dotd-overlay"></div>
+                <div class="dotd-content">
+                    <h3 id="dotdName">Loading…</h3>
+                    <p class="dotd-country" id="dotdCountry"></p>
+                    <p id="dotdDesc"></p>
+                    <a href="destinations.html" class="btn btn-accent" style="margin-top:1.5rem;display:inline-flex;">
+                        See All Destinations
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURE GRID -->
+        <section class="section">
+            <h2 class="section-title reveal">Everything you need in one place</h2>
+            <div class="feature-grid">
+                <a href="destinations.html" class="feature-card reveal" style="text-decoration:none;color:inherit;">
+                    <h3>Explore Destinations</h3>
+                    <p>Browse 15 handpicked destinations with detail and cost information.</p>
+                </a>
+                <a href="budget.html" class="feature-card reveal" style="text-decoration:none;color:inherit;">
+                    <h3>Budget Planner</h3>
+                    <p>Calculate your trip cost and save your budgets.</p>
+                </a>
+                <a href="generator.html" class="feature-card reveal" style="text-decoration:none;color:inherit;">
+                    <h3>Trip Generator</h3>
+                    <p>Let TravelNest randomly suggest your next destination.</p>
+                </a>
+                <a href="mood.html" class="feature-card reveal" style="text-decoration:none;color:inherit;">
+                    <h3>Travel Mood</h3>
+                    <p>Play ambient sounds and track destinations you have visited.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+                <p>Your one-stop platform for travel planning, inspiration and exploration.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a onclick="window.location='destinations.html'">Explore</a></li>
+                    <li><a onclick="window.location='budget.html'">Budget Planner</a></li>
+                    <li><a onclick="window.location='generator.html'">Trip Generator</a></li>
+                    <li><a href="mood.html">Travel Mood</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required />
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2026 TravelNest</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+    <script>
+        // Home Page JS
+
+        // ---- Rotating hero quotes and images ----
+        // Each entry has a quote, author and a word that replaces
+        // "adventure" in the heading and a matching destination image.
+        const quotes = [
+            { text: '"Not all those who wander are lost."', author: "J.R.R. Tolkien", word: "adventure" },
+            { text: '"The world is a book. Those who do not travel read only one page."', author: "Saint Augustine", word: "journey" },
+            { text: '"Travel is the only thing you buy that makes you richer."', author: "", word: "escape" },
+            { text: '"To travel is to live."', author: "Hans Christian Andersen", word: "freedom" },
+        ];
+
+        const heroImages = [
+            "images/paris.jpg",
+            "https://images.unsplash.com/photo-1542051841857-5f90071e7989?w=900&h=680&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=900&h=680&fit=crop&q=80",
+            "https://images.unsplash.com/photo-1529963183134-61a90db47eaf?q=80&w=900&h=680&fit=crop&q=80",];
+
+        const quoteEl = document.getElementById('heroQuote');
+        const wordEl = document.getElementById('heroWord');
+        const heroImg = document.getElementById('heroImg');
+        let idx = 0;
+
+        // Fade out, swap content, fade back in
+        function rotateHero() {
+            quoteEl.style.opacity = '0';
+            wordEl.style.opacity = '0';
+            heroImg.style.opacity = '0';
+
+            setTimeout(() => {
+                idx = (idx + 1) % quotes.length;  // advance index, wrap at end
+                const q = quotes[idx];
+                quoteEl.textContent = q.author ? `${q.text} - ${q.author}` : q.text;
+                wordEl.textContent = q.word;
+                heroImg.src = heroImages[idx % heroImages.length];
+                quoteEl.style.opacity = '1';
+                wordEl.style.opacity = '1';
+                heroImg.style.opacity = '1';
+            }, 440);
+        }
+
+        // Set CSS transitions once (cleaner than putting them in CSS for dynamic elements)
+        quoteEl.style.transition = 'opacity 0.44s ease';
+        wordEl.style.transition = 'opacity 0.44s ease';
+        setInterval(rotateHero, 5000);  // rotate every 5 seconds
+
+        // ---- Destination of the Day ----
+        // Uses the day of the year to pick a destination.
+        // The same destination always appears on the same calendar day.
+        const today = new Date();
+        const yearStart = new Date(today.getFullYear(), 0, 0);
+        // Subtract two dates → milliseconds between them. Divide to get days.
+        const dayOfYear = Math.floor((today - yearStart) / (1000 * 60 * 60 * 24));
+        // % (modulo) wraps the index: day 16 becomes index 1 if there are 15 destinations
+        const dotd = destinations[dayOfYear % destinations.length];
+
+        document.getElementById('dotdName').textContent = dotd.name;
+        document.getElementById('dotdCountry').textContent = dotd.country + ' · ' + dotd.continent;
+        document.getElementById('dotdDesc').textContent = dotd.description.slice(0, 200) + '…';
+        document.getElementById('dotdBg').style.backgroundImage = `url(${dotd.image})`;
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelNest – Feedback & FAQ</title>
+    <meta name="description"
+        content="TravelNest helps you explore destinations, plan trips and track travel inspiration." />
+    <meta name="theme-color" content="#09101C" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233D8BF8'/><path d='M20 55 L50 20 L80 55 L65 50 L65 75 L50 70 L35 75 L35 50 Z' fill='white'/></svg>" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            padding: 1rem 0;
+            font-size: 1.1rem;
+            font-family: inherit;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+        }
+
+        .faq-answer p {
+            padding-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .error-msg {
+            color: #ff4d4f;
+            font-size: 0.85rem;
+            display: none;
+            margin-top: 0.2rem;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .invalid {
+            border-color: #ff4d4f !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Explore</a></li>
+            <li><a href="budget.html">Budget</a></li>
+            <li><a href="generator.html">Generator</a></li>
+            <li><a href="mood.html">Mood</a></li>
+            <li><a href="feedback.html" class="active">Feedback</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <section class="section">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div id="faqList" style="max-width: 700px; margin: 0 auto 3rem auto;">
+                <!-- Populated by JS -->
+            </div>
+
+            <h2 class="section-title">Send us Feedback</h2>
+            <p class="section-subtitle">We'd love to hear your thoughts and suggestions.</p>
+
+            <form id="feedbackForm"
+                style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label for="nameInput">Your Name:</label><br>
+                    <input type="text" id="nameInput"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-alt); color: var(--text);"
+                        placeholder="John Doe" />
+                    <span id="nameError" class="error-msg">Please enter your name.</span>
+                </div>
+
+                <div>
+                    <label for="emailInput">Email Address:</label><br>
+                    <input type="email" id="emailInput"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-alt); color: var(--text);"
+                        placeholder="john@example.com" />
+                    <span id="emailError" class="error-msg">Please enter a valid email address.</span>
+                </div>
+
+                <div>
+                    <label for="messageInput">Message:</label><br>
+                    <textarea id="messageInput" rows="5"
+                        style="width: 100%; padding: 0.8rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg-alt); color: var(--text); resize: vertical;"
+                        placeholder="Tell us what you think..."></textarea>
+                    <span id="messageError" class="error-msg">Message must be at least 10 characters long.</span>
+                </div>
+
+                <button type="submit" class="btn" style="padding: 1rem;">Submit Feedback</button>
+                <div id="confirmMsg"
+                    style="background: rgba(76, 175, 80, 0.1); border: 1px solid #4caf50; color: #4caf50; padding: 1rem; border-radius: 4px; text-align: center; display: none; margin-top: 1rem;">
+                    Thank you! Your feedback has been received.
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+                <p>Your one-stop platform for travel planning, inspiration and exploration.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html">Explore</a></li>
+                    <li><a href="budget.html">Budget Planner</a></li>
+                    <li><a href="generator.html">Trip Generator</a></li>
+                    <li><a href="mood.html">Travel Mood</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 TravelNest</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Feedback Form JS
+
+        // ---- FAQ accordion ----
+        // Each FAQ item toggles open/closed when its button is clicked.
+        // The .open class is toggled on the parent item - CSS handles
+        // showing/hiding the answer using max-height transition.
+        const faqs = [
+            {
+                q: "How does the Budget Planner work?",
+                a: "Pick a destination, enter how many days and your daily budget. It calculates the total and shows a budget status."
+            },
+            {
+                q: "How does the Destination of the Day work?",
+                a: "The home page picks a destination based on the day of the year using date-based logic. The same destination appears every year on the same day."
+            },
+            {
+                q: "Can I save my favourite destinations?",
+                a: "Yes. On the Trip Generator page, click Add to Wishlist. Your wishlist is saved to localStorage."
+            },
+            {
+                q: "What are the ambient sounds on the Mood page?",
+                a: "The sounds are played from local MP3 files so you can easily customize them by adding your own audio files."
+            },
+            {
+                q: "Is my data stored securely?",
+                a: "All data is stored in your browser's localStorage. It never leaves your device."
+            },
+            {
+                q: "Can I book my trip directly through TravelNest?",
+                a: "No, TravelNest is strictly an inspiration and planning tool. Once you have used the Budget Planner, you will need to book your flights and hotels through an official travel agency."
+            },
+        ];
+
+        // Build FAQ HTML and inject it
+        document.getElementById('faqList').innerHTML = faqs.map((item, i) => `
+            <div class="faq-item" id="faq-${i}">
+              <button class="faq-question" onclick="toggleFaq(${i})">
+                <span>${item.q}</span>
+                <svg class="faq-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="m6 9 6 6 6-6"/>
+                </svg>
+              </button>
+              <div class="faq-answer" id="faq-ans-${i}" role="region">
+                <p>${item.a}</p>
+              </div>
+            </div>
+          `).join('');
+
+        // Toggle one FAQ item open or closed
+        function toggleFaq(i) {
+            const item = document.getElementById('faq-' + i);
+            const btn = item.querySelector('.faq-question');
+            const open = item.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open);
+        }
+
+        // ---- Feedback form validation ----
+        document.getElementById('feedbackForm').addEventListener('submit', e => {
+            e.preventDefault();
+            let valid = true;
+
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const message = document.getElementById('messageInput').value.trim();
+
+            // Name - must not be empty
+            if (!name) {
+                document.getElementById('nameError').classList.add('show');
+                document.getElementById('nameInput').classList.add('invalid');
+                valid = false;
+            } else {
+                document.getElementById('nameError').classList.remove('show');
+                document.getElementById('nameInput').classList.remove('invalid');
+            }
+
+            // Email - must match basic email pattern using a regular expression
+            // /^[^\s@]+@[^\s@]+\.[^\s@]+$/ checks: something @ something . something
+            const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!emailOk) {
+                document.getElementById('emailError').classList.add('show');
+                document.getElementById('emailInput').classList.add('invalid');
+                valid = false;
+            } else {
+                document.getElementById('emailError').classList.remove('show');
+                document.getElementById('emailInput').classList.remove('invalid');
+            }
+
+            // Message - must be at least 10 characters
+            if (!message || message.length < 10) {
+                document.getElementById('messageError').classList.add('show');
+                document.getElementById('messageInput').classList.add('invalid');
+                valid = false;
+            } else {
+                document.getElementById('messageError').classList.remove('show');
+                document.getElementById('messageInput').classList.remove('invalid');
+            }
+
+            if (!valid) return;
+
+            // Save feedback to localStorage
+            const existing = JSON.parse(localStorage.getItem('tn_feedback') || '[]');
+            existing.push({ name, email, message, date: new Date().toLocaleString() });
+            localStorage.setItem('tn_feedback', JSON.stringify(existing));
+
+            // Show confirmation message and reset the form
+            document.getElementById('confirmMsg').classList.add('show');
+            document.getElementById('feedbackForm').reset();
+        });
+
+        // Hide confirmation when user starts typing again
+        document.getElementById('feedbackForm').addEventListener('input', () => {
+            document.getElementById('confirmMsg').classList.remove('show');
+        });
+
+    </script>
+</body>
+
+</html>

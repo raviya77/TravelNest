@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelNest – Travel Mood</title>
+    <meta name="description"
+        content="TravelNest helps you explore destinations, plan trips and track travel inspiration." />
+    <meta name="theme-color" content="#09101C" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233D8BF8'/><path d='M20 55 L50 20 L80 55 L65 50 L65 75 L50 70 L35 75 L35 50 Z' fill='white'/></svg>" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .sound-btn {
+            background: var(--bg-alt);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            color: var(--text);
+        }
+
+        .sound-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .sound-btn.active {
+            background: rgba(61, 139, 248, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .sound-status {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .trip-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .trip-row:last-child {
+            border-bottom: none;
+        }
+
+        .trip-info strong {
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .trip-info span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .status-btn {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+        }
+
+        .status-btn:hover {
+            border-color: var(--text);
+            color: var(--text);
+        }
+
+        .status-btn.visited {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+
+        .status-btn.planned {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #1565c0;
+        }
+
+        @media (max-width: 600px) {
+            .trip-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .trip-status-btns {
+                width: 100%;
+                display: flex;
+            }
+
+            .status-btn {
+                flex: 1;
+                margin-left: 0;
+                margin-right: 0.5rem;
+                text-align: center;
+            }
+
+            .status-btn:last-child {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Explore</a></li>
+            <li><a href="budget.html">Budget</a></li>
+            <li><a href="generator.html">Generator</a></li>
+            <li><a href="mood.html" class="active">Mood</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <section class="section">
+            <h2 class="section-title">Travel Mood</h2>
+            <p class="section-subtitle">Set the mood with ambient sounds and track your travels.</p>
+
+            <div style="max-width: 800px; margin: 2rem auto;">
+                <h3 style="margin-bottom: 1.5rem;">Ambient Sounds</h3>
+                <p style="color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem;">
+                    Click a preset to play local ambient audio files to help you focus or relax while planning.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                    <button class="sound-btn" data-sound="Beach" onclick="toggleSound('Beach')">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🌊</span>
+                        Beach
+                        <span class="sound-status">Tap to play</span>
+                    </button>
+                    <button class="sound-btn" data-sound="Forest" onclick="toggleSound('Forest')">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🌲</span>
+                        Forest
+                        <span class="sound-status">Tap to play</span>
+                    </button>
+                    <button class="sound-btn" data-sound="Rain" onclick="toggleSound('Rain')">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🌧️</span>
+                        Rain
+                        <span class="sound-status">Tap to play</span>
+                    </button>
+                    <button class="sound-btn" data-sound="City" onclick="toggleSound('City')">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">🏙️</span>
+                        City
+                        <span class="sound-status">Tap to play</span>
+                    </button>
+                    <button class="sound-btn" data-sound="Cafe" onclick="toggleSound('Cafe')">
+                        <span style="font-size: 2rem; display: block; margin-bottom: 0.5rem;">☕</span>
+                        Cafe
+                        <span class="sound-status">Tap to play</span>
+                    </button>
+                </div>
+            </div>
+
+            <div style="max-width: 800px; margin: 4rem auto 0;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">My Travels</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-muted);">
+                            Visited: <strong id="visitedCount" style="color: var(--text);">0</strong> |
+                            Planned: <strong id="plannedCount" style="color: var(--text);">0</strong>
+                        </p>
+                    </div>
+                    <button onclick="clearStatuses()"
+                        style="background: none; border: none; color: #ff4d4f; cursor: pointer; text-decoration: underline;">Reset
+                        All Tracker Data</button>
+                </div>
+
+                <div id="tripGrid"
+                    style="border: 1px solid var(--border); border-radius: 8px; background: var(--bg-alt);">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+                <p>Your one-stop platform for travel planning, inspiration and exploration.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html">Explore</a></li>
+                    <li><a href="budget.html">Budget Planner</a></li>
+                    <li><a href="generator.html">Trip Generator</a></li>
+                    <li><a href="mood.html">Travel Mood</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 TravelNest</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+                // Travel Mood JS
+
+                // ---- Local Audio Player ----
+                let currentAudio = null;
+                let activeSound = null;
+
+                // Toggle a sound: if playing, stop it; if not, start it
+                function toggleSound(name) {
+                    const btn = document.querySelector(`[data-sound="${name}"]`);
+                    const statusEl = btn.querySelector('.sound-status');
+
+                    if (activeSound === name) {
+                        // Stop playing
+                        if (currentAudio) {
+                            currentAudio.pause();
+                            currentAudio.currentTime = 0;
+                        }
+                        activeSound = null;
+                        btn.classList.remove('active');
+                        statusEl.textContent = 'Tap to play';
+                    } else {
+                        // Stop previous
+                        if (currentAudio) {
+                            currentAudio.pause();
+                            currentAudio.currentTime = 0;
+                            if (activeSound) {
+                                const prevBtn = document.querySelector(`[data-sound="${activeSound}"]`);
+                                if (prevBtn) {
+                                    prevBtn.classList.remove('active');
+                                    prevBtn.querySelector('.sound-status').textContent = 'Tap to play';
+                                }
+                            }
+                        }
+
+                        // Start new audio
+                        currentAudio = new Audio('audio/' + name + '.mp3');
+                        currentAudio.loop = true;
+                        currentAudio.play().catch(e => {
+                            console.log("Audio file not found. Make sure you placed '" + name + ".mp3' inside an 'audio' folder.");
+                        });
+
+                        activeSound = name;
+                        btn.classList.add('active');
+                        statusEl.textContent = 'Playing…';
+                    }
+                }
+
+                // ---- Trip tracker ----
+                function renderTripGrid() {
+                    const statuses = getTripStatuses();   // helper from main.js
+                    const grid = document.getElementById('tripGrid');
+
+                    grid.innerHTML = destinations.map(d => {
+                        const status = statuses[d.id] || null;
+                        return `
+                <div class="trip-row">
+                  <div class="trip-info">
+                    <strong>${d.name}</strong>
+                    <span>${d.country} · ${d.continent}</span>
+                  </div>
+                  <div class="trip-status-btns">
+                    <button class="status-btn ${status === 'visited' ? 'visited' : ''}"
+                            onclick="updateStatus(${d.id}, 'visited')">
+                      ✓ Visited
+                    </button>
+                    <button class="status-btn ${status === 'planned' ? 'planned' : ''}"
+                            onclick="updateStatus(${d.id}, 'planned')">
+                      📅 Planned
+                    </button>
+                  </div>
+                </div>
+              `;
+                    }).join('');
+
+                    updateStats();
+                }
+
+                function updateStatus(destId, status) {
+                    setTripStatus(destId, status);   // helper from main.js - also toggles off
+                    renderTripGrid();
+                }
+
+                function updateStats() {
+                    const vals = Object.values(getTripStatuses());
+                    document.getElementById('visitedCount').textContent = vals.filter(v => v === 'visited').length;
+                    document.getElementById('plannedCount').textContent = vals.filter(v => v === 'planned').length;
+                }
+
+                function clearStatuses() {
+                    if (confirm('Reset all travel statuses?')) {
+                        localStorage.removeItem('tn_trip_status');
+                        renderTripGrid();
+                    }
+                }
+
+                renderTripGrid();
+
+    </script>
+</body>
+
+</html>

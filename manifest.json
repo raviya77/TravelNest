@@ -1,0 +1,17 @@
+{
+  "name": "TravelNest",
+  "short_name": "TravelNest",
+  "description": "Explore destinations, plan trips and track travel inspiration.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FAFAF8",
+  "theme_color": "#5B8FB9",
+  "orientation": "any",
+  "icons": [
+    {
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "192x192"
+    }
+  ]
+}

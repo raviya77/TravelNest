@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelNest – Budget Planner</title>
+    <meta name="description"
+        content="TravelNest helps you explore destinations, plan trips and track travel inspiration." />
+    <meta name="theme-color" content="#09101C" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233D8BF8'/><path d='M20 55 L50 20 L80 55 L65 50 L65 75 L50 70 L35 75 L35 50 Z' fill='white'/></svg>" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .error-msg {
+            color: #ff4d4f;
+            font-size: 0.85rem;
+            display: none;
+            margin-top: 0.2rem;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .invalid {
+            border-color: #ff4d4f;
+        }
+
+        .result-box {
+            display: none;
+            padding: 1.5rem;
+            background: var(--bg-alt);
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .progress-bar-container {
+            background: #333;
+            height: 10px;
+            border-radius: 5px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: var(--primary);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Explore</a></li>
+            <li><a href="budget.html" class="active">Budget</a></li>
+            <li><a href="generator.html">Generator</a></li>
+            <li><a href="mood.html">Mood</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <section class="section">
+            <h2 class="section-title">Budget Planner</h2>
+            <p class="section-subtitle">Plan your trip expenses easily.</p>
+
+            <form id="budgetForm"
+                style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                <div>
+                    <label for="destSelect">Destination:</label><br>
+                    <select id="destSelect" style="width: 100%; padding: 0.5rem;">
+                        <option value=""> - Select a Destination</option>
+                    </select>
+                    <span id="destError" class="error-msg">Please select a destination.</span>
+                </div>
+
+                <div>
+                    <label for="daysInput">Number of Days:</label><br>
+                    <input type="number" id="daysInput" style="width: 100%; padding: 0.5rem;" placeholder="e.g., 7"
+                        min="1" max="365" />
+                    <span id="daysError" class="error-msg">Please enter a valid number of days (1-365).</span>
+                </div>
+
+                <div>
+                    <label for="dailyInput">Daily Budget ($):</label><br>
+                    <input type="number" id="dailyInput" style="width: 100%; padding: 0.5rem;" placeholder="e.g., 100"
+                        min="1" />
+                    <span id="dailyError" class="error-msg">Please enter a valid daily budget.</span>
+                </div>
+
+                <button type="submit" class="btn" style="width: 100%;">Calculate Cost</button>
+            </form>
+
+            <div id="resultBox" class="result-box" style="max-width: 500px; margin: 2rem auto;">
+                <h3 style="margin-bottom: 0.5rem;">Total Estimated Cost</h3>
+                <p id="totalCostEl" style="font-size: 2rem; font-weight: bold; color: var(--primary);"></p>
+                <p id="costBreakdown" style="color: var(--text-muted); margin-bottom: 1rem;"></p>
+
+                <div id="budgetBadge" style="margin-bottom: 1rem;"></div>
+
+                <p id="progressLabel" style="font-size: 0.9rem;"></p>
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+
+                <button id="saveBtn" class="btn btn-outline" style="margin-top: 1rem;">Save Budget</button>
+                <p id="saveMsg" style="color: #4caf50; font-size: 0.9rem; display: none; margin-top: 0.5rem;">Budget
+                    saved successfully!</p>
+            </div>
+
+            <div style="max-width: 500px; margin: 3rem auto 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Saved Budgets</h3>
+                    <button id="clearSavedBtn"
+                        style="background: none; border: none; color: #ff4d4f; cursor: pointer; text-decoration: underline; display: none;">Clear
+                        All</button>
+                </div>
+                <div id="savedBudgetsContainer"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+                <p>Your one-stop platform for travel planning, inspiration and exploration.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html">Explore</a></li>
+                    <li><a href="budget.html">Budget Planner</a></li>
+                    <li><a href="generator.html">Trip Generator</a></li>
+                    <li><a href="mood.html">Travel Mood</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 TravelNest</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+                // Budget Planner JS
+
+                // Holds the most recently calculated budget so it can be saved
+                let currentCalc = null;
+
+                // This keeps the HTML clean and means adding a destination only
+                const destSelect = document.getElementById('destSelect');
+                destinations.forEach(d => {
+                    const opt = document.createElement('option');
+                    opt.value = d.id;
+                    opt.textContent = d.name + ' (' + d.country + ')';
+                    destSelect.appendChild(opt);
+                });
+
+                // ---- Check if generator.html passed a pre-selected destination ----
+                const preSelected = sessionStorage.getItem('tn_selected_dest');
+                if (preSelected) {
+                    destSelect.value = preSelected;
+                    sessionStorage.removeItem('tn_selected_dest');
+                }
+
+                // Form submission - validate and calculate 
+                document.getElementById('budgetForm').addEventListener('submit', e => {
+                    e.preventDefault();
+                    let valid = true;
+
+                    const destId = parseInt(destSelect.value);
+                    const days = parseInt(document.getElementById('daysInput').value);
+                    const daily = parseFloat(document.getElementById('dailyInput').value);
+
+                    // Validate destination selection
+                    if (!destId) {
+                        document.getElementById('destError').classList.add('show');
+                        destSelect.classList.add('invalid');
+                        valid = false;
+                    } else {
+                        document.getElementById('destError').classList.remove('show');
+                        destSelect.classList.remove('invalid');
+                    }
+
+                    // Validate days (must be 1–365)
+                    if (!days || days < 1 || days > 365) {
+                        document.getElementById('daysError').classList.add('show');
+                        document.getElementById('daysInput').classList.add('invalid');
+                        valid = false;
+                    } else {
+                        document.getElementById('daysError').classList.remove('show');
+                        document.getElementById('daysInput').classList.remove('invalid');
+                    }
+
+                    // Validate daily budget
+                    if (!daily || daily < 1) {
+                        document.getElementById('dailyError').classList.add('show');
+                        document.getElementById('dailyInput').classList.add('invalid');
+                        valid = false;
+                    } else {
+                        document.getElementById('dailyError').classList.remove('show');
+                        document.getElementById('dailyInput').classList.remove('invalid');
+                    }
+
+                    if (!valid) return;   // stop if any validation failed
+
+                    // Calculation 
+                    const dest = destinations.find(d => d.id === destId);
+                    const total = daily * days;
+
+                    // Determine budget status based on daily spend
+                    let status, badgeClass;
+                    if (daily < 60) {
+                        status = 'Budget Backpacker'; badgeClass = 'badge-low';
+                    } else if (daily < 150) {
+                        status = 'Mid-range Traveller'; badgeClass = 'badge-moderate';
+                    } else {
+                        status = 'Luxury Traveller'; badgeClass = 'badge-luxury';
+                    }
+
+                    // Progress bar: how far through the luxury range is their daily budget?
+                    const pct = Math.min((daily / dest.costs.luxury) * 100, 100);
+
+                    // Update the result box 
+                    document.getElementById('totalCostEl').textContent = formatCurrency(total);
+                    document.getElementById('budgetBadge').innerHTML = `<span class="badge ${badgeClass}">${status}</span>`;
+                    document.getElementById('progressLabel').textContent =
+                        'Your daily budget: ' + formatCurrency(daily) + ' - ' + dest.name +
+                        ' range: ' + formatCurrency(dest.costs.budget) + '–' + formatCurrency(dest.costs.luxury) + '/day';
+                    document.getElementById('costBreakdown').textContent =
+                        days + ' days × ' + formatCurrency(daily) + '/day = ' + formatCurrency(total) + ' total';
+
+                    // Animate the progress bar (small delay lets CSS transition fire)
+                    setTimeout(() => {
+                        document.getElementById('progressBar').style.width = pct + '%';
+                    }, 50);
+
+                    document.getElementById('resultBox').classList.add('show');
+                    document.getElementById('saveMsg').style.display = 'none';
+
+                    // Store the result so the Save button can access it
+                    currentCalc = {
+                        destId, destName: dest.name, days, daily, total, status,
+                        date: new Date().toLocaleDateString()
+                    };
+                });
+
+                // ---- Save budget to localStorage ----
+                document.getElementById('saveBtn').addEventListener('click', () => {
+                    if (!currentCalc) return;
+
+                    // Read existing saved budgets (or start with empty array)
+                    const saved = JSON.parse(localStorage.getItem('tn_budgets') || '[]');
+
+                    // Check for duplicate before saving
+                    const isDupe = saved.some(s =>
+                        s.destId === currentCalc.destId &&
+                        s.days === currentCalc.days &&
+                        s.daily === currentCalc.daily
+                    );
+
+                    if (!isDupe) {
+                        saved.unshift(currentCalc);         // add to front of list
+                        // slice(0, 10) limits to 10 saved budgets maximum
+                        localStorage.setItem('tn_budgets', JSON.stringify(saved.slice(0, 10)));
+                    }
+                    document.getElementById('saveMsg').style.display = 'block';
+                    renderSavedBudgets();
+                });
+
+                // ---- Render saved budgets list ----
+                function renderSavedBudgets() {
+                    const saved = JSON.parse(localStorage.getItem('tn_budgets') || '[]');
+                    const container = document.getElementById('savedBudgetsContainer');
+                    const clearBtn = document.getElementById('clearSavedBtn');
+
+                    if (saved.length === 0) {
+                        container.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;">No saved budgets yet.</p>';
+                        clearBtn.style.display = 'none';
+                        return;
+                    }
+
+                    clearBtn.style.display = 'inline-flex';
+                    container.innerHTML = saved.map(s => `
+              <div class="saved-item" style="padding: 1rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div class="saved-item-info">
+                  <strong style="display: block;">${s.destName}</strong>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">${s.days} days · ${formatCurrency(s.daily)}/day · ${s.date}</span>
+                </div>
+                <span class="saved-item-cost" style="font-weight: bold; color: var(--primary);">${formatCurrency(s.total)}</span>
+              </div>
+            `).join('');
+                }
+
+                document.getElementById('clearSavedBtn').addEventListener('click', () => {
+                    if (confirm('Clear all saved budgets?')) {
+                        localStorage.removeItem('tn_budgets');
+                        renderSavedBudgets();
+                    }
+                });
+
+                // Render any existing saved budgets on page load
+                renderSavedBudgets();
+
+    </script>
+</body>
+
+</html>

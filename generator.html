@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TravelNest – Trip Generator</title>
+    <meta name="description"
+        content="TravelNest helps you explore destinations, plan trips and track travel inspiration." />
+    <meta name="theme-color" content="#09101C" />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%233D8BF8'/><path d='M20 55 L50 20 L80 55 L65 50 L65 75 L50 70 L35 75 L35 50 Z' fill='white'/></svg>" />
+    <link rel="manifest" href="manifest.json" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .suggest-box {
+            display: none;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-alt);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .suggest-box.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wishlist-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            margin: 0.2rem;
+        }
+
+        .wishlist-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Explore</a></li>
+            <li><a href="budget.html">Budget</a></li>
+            <li><a href="generator.html" class="active">Generator</a></li>
+            <li><a href="mood.html">Mood</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main>
+        <section class="section">
+            <h2 class="section-title">Trip Generator</h2>
+            <p class="section-subtitle">Not sure where to go? Let us surprise you.</p>
+
+            <div style="max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label for="travelTypeSelect">Travel Style:</label><br>
+                        <select id="travelTypeSelect" style="width: 100%; padding: 0.5rem; margin-top: 0.2rem;">
+                            <option value="">Any Style</option>
+                            <option value="cultural">City & Culture</option>
+                            <option value="relaxation">Beach & Relaxation</option>
+                            <option value="nature">Nature & Wildlife</option>
+                            <option value="adventure">Adventure</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label for="budgetRangeSelect">Budget Range:</label><br>
+                        <select id="budgetRangeSelect" style="width: 100%; padding: 0.5rem; margin-top: 0.2rem;">
+                            <option value="">Any Budget</option>
+                            <option value="low">Budget</option>
+                            <option value="medium">Mid-range</option>
+                            <option value="high">Luxury</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="generateBtn" class="btn" style="width: 100%; padding: 1rem; font-size: 1.1rem;">Generate
+                    Destination</button>
+                <p id="noResultMsg" style="color: #ff4d4f; text-align: center; display: none; margin-top: 1rem;">No
+                    destinations match these exact filters. Try changing them!</p>
+            </div>
+
+            <div id="suggestBox" class="suggest-box" style="max-width: 600px; margin: 2rem auto;">
+                <img id="suggestImg" src="" alt=""
+                    style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;" />
+                <h3 id="suggestName" style="margin-top: 1.5rem; font-size: 1.5rem;"></h3>
+                <p id="suggestSub" style="color: var(--text-muted); font-weight: 500; margin-bottom: 1rem;"></p>
+                <p id="suggestDesc" style="line-height: 1.6;"></p>
+
+                <p id="wishlistMsg" style="color: #4caf50; font-size: 0.9rem; margin-top: 1rem; display: none;"></p>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem;">
+                    <button id="addWishlistBtn" class="btn btn-outline" style="flex: 1;">Add to Wishlist</button>
+                    <a id="planBudgetBtn" href="budget.html" class="btn btn-accent"
+                        style="flex: 1; text-align: center;">Plan Budget</a>
+                    <button id="surpriseAgainBtn" class="btn" style="width: 100%;">Surprise Me Again</button>
+                </div>
+            </div>
+
+            <div style="max-width: 600px; margin: 4rem auto 0;">
+                <h3 style="margin-bottom: 1rem;">Your Wishlist</h3>
+                <div id="wishlistGrid"
+                    style="display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; border: 1px dashed var(--border); border-radius: 8px;">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a class="logo" href="index.html">Travel<span class="logo-accent">Nest</span></a>
+                <p>Your one-stop platform for travel planning, inspiration and exploration.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Pages</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="destinations.html">Explore</a></li>
+                    <li><a href="budget.html">Budget Planner</a></li>
+                    <li><a href="generator.html">Trip Generator</a></li>
+                    <li><a href="mood.html">Travel Mood</a></li>
+                    <li><a href="feedback.html">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+                    <button type="submit" class="btn btn-sm">Go</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 TravelNest</p>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+                // Trip Generator JS
+
+                let currentSuggestion = null;
+                let lastFilteredList = [];
+
+                // ---- Get destinations matching the current filters ----
+                function getFiltered() {
+                    const type = document.getElementById('travelTypeSelect').value;
+                    const budget = document.getElementById('budgetRangeSelect').value;
+                    return destinations.filter(d => {
+                        // !type means no filter selected - match all
+                        const matchType = !type || d.travelType.includes(type);
+                        const matchBudget = !budget || d.budgetRange === budget;
+                        return matchType && matchBudget;
+                    });
+                }
+
+                // ---- Pick a random destination from a list ----
+                // Avoids picking the same one twice in a row
+                function pickRandom(list) {
+                    if (list.length > 1 && currentSuggestion) {
+                        const others = list.filter(d => d.id !== currentSuggestion.id);
+                        return others[Math.floor(Math.random() * others.length)];
+                    }
+                    return list[Math.floor(Math.random() * list.length)];
+                }
+
+                // ---- Display a suggestion ----
+                function showSuggestion(dest) {
+                    if (!dest) return;
+                    currentSuggestion = dest;
+
+                    document.getElementById('suggestImg').src = dest.image;
+                    document.getElementById('suggestImg').alt = dest.name;
+                    document.getElementById('suggestName').textContent = dest.name;
+                    document.getElementById('suggestSub').textContent =
+                        dest.country + ' · ' + dest.continent;
+                    document.getElementById('suggestDesc').textContent = dest.description;
+                    document.getElementById('wishlistMsg').style.display = 'none';
+
+                    // Restart the CSS animation by removing and re-adding the class
+                    const box = document.getElementById('suggestBox');
+                    box.classList.remove('show');
+                    void box.offsetWidth;   // force browser to re-paint before adding class back
+                    box.classList.add('show');
+                }
+
+                // ---- Generate a suggestion ----
+                function generate() {
+                    const filtered = getFiltered();
+                    lastFilteredList = filtered;
+
+                    if (filtered.length === 0) {
+                        document.getElementById('noResultMsg').style.display = 'block';
+                        document.getElementById('suggestBox').classList.remove('show');
+                        return;
+                    }
+
+                    document.getElementById('noResultMsg').style.display = 'none';
+                    showSuggestion(pickRandom(filtered));
+                }
+
+                // Button event listeners
+                document.getElementById('generateBtn').addEventListener('click', generate);
+
+                document.getElementById('surpriseAgainBtn').addEventListener('click', () => {
+                    if (lastFilteredList.length > 0) showSuggestion(pickRandom(lastFilteredList));
+                    else generate();
+                });
+
+                document.getElementById('addWishlistBtn').addEventListener('click', () => {
+                    if (!currentSuggestion) return;
+                    const added = addToWishlist(currentSuggestion.id);  // helper from main.js
+                    const msg = document.getElementById('wishlistMsg');
+                    msg.style.display = 'block';
+                    msg.textContent = added
+                        ? currentSuggestion.name + ' added to your wishlist.'
+                        : currentSuggestion.name + ' is already in your wishlist.';
+                    renderWishlist();
+                });
+
+                // Pass destination ID to budget page via sessionStorage
+                document.getElementById('planBudgetBtn').addEventListener('click', () => {
+                    if (currentSuggestion) {
+                        sessionStorage.setItem('tn_selected_dest', currentSuggestion.id);
+                    }
+                });
+
+                // ---- Render the wishlist ----
+                function renderWishlist() {
+                    const list = getWishlist();   // helper from main.js
+                    const grid = document.getElementById('wishlistGrid');
+
+                    if (list.length === 0) {
+                        grid.innerHTML = '<p style="color:var(--text-muted);font-size:0.88rem;">Your wishlist is empty.</p>';
+                        return;
+                    }
+
+                    grid.innerHTML = list.map(id => {
+                        const d = destinations.find(x => x.id === id);
+                        if (!d) return '';
+                        return `
+                <span class="wishlist-tag">
+                  ${d.name}
+                  <button onclick="removeFromWishlist(${d.id}); renderWishlist();"
+                          aria-label="Remove ${d.name}">✕</button>
+                </span>
+              `;
+                    }).join('');
+                }
+
+                // Load page with an initial suggestion and existing wishlist
+                renderWishlist();
+                generate();
+
+    </script>
+</body>
+
+</html>
